@@ -67,7 +67,7 @@
                     <button class="delete" ng-click="removeCondition(ui.outgoing_message,$index);"></button>
 
                     <label>User says</label>
-                    <input type="text" ng-model="option.pattern"  ng-change="makeDirty()" class="ng-class: {invalid: option.invalid};"  ng-if="option.type=='regex' || option.type=='string'">
+                    <input type="text" ng-model="option.pattern"  ng-change="makeDirty()" class="ng-class: {invalid: option.invalid};"  ng-if="option.type=='regex' || option.type=='string' || option.type=='macro' || option.type=='macro_a' || option.type=='macro_b' || option.type=='macro_intent' || option.type=='macro_entity' || option.type=='macro_qs'">
 
                     <select class="ng-class: {invalid: option.invalid}; utterances" ng-change="makeDirty()" ng-model="option.pattern" ng-if="option.type=='utterance'" >
                         <option value="yes">Yes, yeah, sure, yup...</option>
@@ -76,10 +76,21 @@
                     </select>
                 </li>
                 <li>
+<!-- added marson luigi 042020  -->
+		<label>Macro</label>
+                    <input type="text" ng-model="option.macro"  ng-change="makeDirty()" class="ng-class: {invalid: option.invalid};"  ng-if=" option.type=='macro_a' || option.type=='macro_b' || option.type=='macro_intent' || option.type=='macro_entity' || option.type=='macro_qs'">
+
+                </li>
+                <li>
                     <label>If:</label>
                     <select class="ng-class: {invalid: option.invalid}; option-type conditional_select"  ng-change="makeDirty()" ng-model="option.type">
                         <option value="string">exact match</option>
                         <option value="regex">matches the regex</option>
+			<option value="macro_a">voice macro a</option>
+			<option value="macro_b">voice macro b</option>
+			<option value="macro_intent">voice intent</option>
+			<option value="macro_entity">voice entity</option>
+			<option value="macro_qs">voice querystring</option>
                         <option value="utterance">is a variation of</option>
                     </select>
                 </li>

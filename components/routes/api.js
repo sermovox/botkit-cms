@@ -31,7 +31,7 @@ module.exports = function(webserver, api) {
     }
 
 
-    /* define the bot-facing API */
+    /* define the bot-facing API  just an example to delete  */
     // receives: triggers, user
     webserver.post('/api/v1/commands/triggers', function(req, res) {
         // look for triggers
@@ -96,7 +96,54 @@ module.exports = function(webserver, api) {
         res.json({});
 
     });
+// /* define the bot-facing API 
 
-
+// start here :
+    // receives: datefrom,dateto,serviceId,performerId,qty
+    
+    webserver.post('/api/getstarttimematrix', function(req, res) {
+        api.poststarttimematrix(req.body.datefrom,req.body.dateto,req.body.serviceId,req.body.performerId,req.body.qty).then(function(script) {
+            res.json(script);
+         // res.json({data:'ciao'});
+        }).catch(function(err) {
+            if (err) {
+                console.error('Error in getScript',err);
+            }
+            res.json({});
+        })
+    });
+    webserver.get('/api/getstarttimematrix', function(req, res) {
+        api.poststarttimematrix(req.query.datefrom,req.query.dateto,req.query.serviceId,req.query.performerId,req.query.qty).then(function(script) {
+            res.json(script);
+         // res.json({data:'ciao'});
+        }).catch(function(err) {
+            if (err) {
+                console.error('Error in getScript',err);
+            }
+            res.json({});
+        })
+    });
+    webserver.get('/api/geteventlist', function(req, res) {
+        api.geteventlist().then(function(script) {
+            res.json(script);
+         // res.json({data:'ciao'});
+        }).catch(function(err) {
+            if (err) {
+                console.error('Error in getScript',err);
+            }
+            res.json({});
+        })
+    });
+    webserver.get('/api/getunitlist', function(req, res) {
+        api.getunitlist().then(function(script) {
+            res.json(script);
+         // res.json({data:'ciao'});
+        }).catch(function(err) {
+            if (err) {
+                console.error('Error in getScript',err);
+            }
+            res.json({});
+        })
+    });
 
 }

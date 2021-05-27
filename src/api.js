@@ -6,7 +6,13 @@ const INTENT_CONFIDENCE_THRESHOLD = process.env.INTENT_CONFIDENCE_THRESHOLD || 0
 module.exports = function() {
 
     var api = {}
-    var scripts = [];
+    var scripts = [],
+    unitlist=[],servicelist=[],timetable=[];
+
+
+
+
+
     var triggers = [];
     var PATH_TO_SCRIPTS;
 
@@ -27,31 +33,46 @@ module.exports = function() {
 
     }
 
-    api.loadScriptsFromFile = function(src, alt_path) {
+    api.loadScriptsFromFile = function(src, src1,src2) {
         return new Promise(function(resolve, reject) {
 
             if (fs.existsSync(src)) {
                 try {
-                    scripts = require(src);
+                    timetable = require(src);
                 } catch(err) {
                     return reject('Cannot load scripts from file: ' + err.message);
                 }
             } else {
-                console.warn('Loading sample scripts...');
+                console.warn('cant find a data json obj: ',src);
+
+            }
+            if (fs.existsSync(src1)) {
                 try {
-                    scripts = require(alt_path);
+                    unitlist = require(src1);
                 } catch(err) {
-                    return reject(err);
+                    return reject('Cannot load scripts from file: ' + err.message);
                 }
+            } else {
+                console.warn('cant find a data json obj: ',src1);
+
+            }
+            if (fs.existsSync(src2)) {
+                try {
+                    servicelist = require(src2);
+                } catch(err) {
+                    return reject('Cannot load scripts from file: ' + err.message);
+                }
+            } else {
+                console.warn('cant find a data json obj: ',src2);
+
             }
 
-            PATH_TO_SCRIPTS = src;
-            api.mapTriggers();
-            resolve(scripts);
+            //PATH_TO_SCRIPTS = src;api.mapTriggers();
+            resolve(timetable);
         });
     }
 
-    api.writeScriptsToFile = function(new_scripts, alt_path) {
+    api.writeScriptsToFile = function(new_scripts, alt_path) {//no moe used
 
         return new Promise(function(resolve, reject) {
             try {
@@ -268,6 +289,11 @@ module.exports = function() {
         });
     }
 
+
+
+
+
+
     api.getScriptById = function(id) {
 
         return new Promise(function(resolve, reject) {
@@ -308,6 +334,49 @@ module.exports = function() {
         return mutagen(api, botkit);
     }
 
-    return api;
+    // start here 
 
+
+
+    api.poststarttimematrix = function(datefrom,dateto,serviceId,performerId,qty) {
+
+        return new Promise(function(resolve, reject) {
+                let genMat;
+                if ((genMat=demoTimeMatrix(datefrom,dateto,serviceId,performerId,qty))) {
+                    return resolve(genMat);
+                }
+
+            reject();
+        });
+    }
+    api.getunitlist = function() {
+
+        return new Promise(function(resolve, reject) {
+                let genMat;
+                if ((genMat=unitlist)) {
+                    return resolve(genMat);
+                }
+
+            reject();
+        });
+    }
+    api.geteventlist = function() {
+
+        return new Promise(function(resolve, reject) {
+                let genMat;
+                if ((genMat=servicelist)) {
+                    return resolve(genMat);
+                }
+
+            reject();
+        });
+    }
+
+    return api;
+    function demoTimeMatrix(datefrom,dateto,serviceId,performerId,qty){
+
+        // generate a matrix like template  scripts ....
+        return timetable;
+    }
 }
+

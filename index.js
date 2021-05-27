@@ -8,15 +8,15 @@ if (!process.env.USERS) {
 var admin_creds = api.parseAdminUsers(process.env.USERS);
 
 // load scripts from file
-api.loadScriptsFromFile(__dirname + '/.data/scripts.json', __dirname + '/sample_scripts.json').catch(function(err) {
+api.loadScriptsFromFile(__dirname + '/.data/timetable.json', __dirname + '/.data/unitlist.json',__dirname + '/.data/servicelist.json').catch(function(err) {
     console.log('Could not load scripts from file:', err);
     process.exit(1);
 }).then(function(scripts) {
     // verify that we can now write back to the file.
-    api.writeScriptsToFile(scripts).catch(function(err) {
+   /* api.writeScriptsToFile(scripts).catch(function(err) {
         console.error(err);
         process.exit(1);
-    });
+    });*/
 }).catch(function(err) {
     console.error(err);
     process.exit(1);

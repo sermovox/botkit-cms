@@ -1,0 +1,7 @@
+git branch -a -vv
+git remote -vv
+
+ nb voximplantStream.js is indepedent voximplant ws asr server: do a branch  then clone in other dir
+
+git log --oneline --decorate --graph --all > gitlog_27052021.txt
+ git checkout -b bookcms
